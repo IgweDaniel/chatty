@@ -1,26 +1,28 @@
 <template>
-<div class="message-box">
-  <div class="actions">
+  <div class="message-box">
+    <div class="actions">
       <div class="upload-button clickable">
-          <AddIcon/>
+        <AddIcon />
       </div>
       <div class="emoji-button clickable">
-<EmojiIcon/>
+        <EmojiIcon />
+      </div>
+    </div>
+    <div class="message-input" >
+      <textarea ref="inp" v-model="messageText" @focus="scroll" name id rows="1" placeholder="Type a message"></textarea>
+    </div>
+      <div class="pri-action">
+    <button class="submit-button" @click.prevent="sendMessage">
+      <div class="icon">
+        <NextIcon />
+
+      </div>
+    </button>
       </div>
   </div>
-   <div class="message-input">
-          <textarea v-model="messageText" name="" id=""  rows="1" placeholder="Type a message" ></textarea>
-      </div>
-      <button class="submit-button" @click="sendMessage">
-          <div class="icon button" >
-              <NextIcon/>
-          </div>
-      </button>
-</div>
 </template>
 
 <script>
-
 import AddIcon from '@/assets/svg/add.svg'
 import EmojiIcon from '@/assets/svg/emoji.svg'
 import NextIcon from '@/assets/svg/arrowNext.svg'
@@ -28,106 +30,128 @@ import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'MessageBox',
-  data: () => ({ messageText: '' }),
-  components: {
-    NextIcon, EmojiIcon, AddIcon
+  props: {
+    scrollToBottom: Function,
+    activeChat: Number
   },
-  computed: { ...mapState(['activeChat', 'currentUser']) },
+  data: () => ({ messageText: 'yo' }),
+  components: {
+    NextIcon,
+    EmojiIcon,
+    AddIcon
+  },
+  computed: { ...mapState(['currentUser']) },
 
   methods: {
     ...mapActions(['createMessage']),
+    scroll () {
+      console.log('focus')
+      this.scrollToBottom()
+    },
     sendMessage () {
+      console.log(this.activeChat)
       if (this.messageText.trim() === '') return
       const date = new Date()
-      this.createMessage({ chatId: this.activeChat, id: Math.round(Math.random() * 10 + 1), message: this.messageText, time: date.getTime(), sender: this.currentUser })
-      this.messageText = ''
+      this.createMessage({
+        chatId: this.activeChat,
+        id: Math.round(Math.random() * 10 + 1),
+        message: this.messageText,
+        time: date.getTime(),
+        sender: this.currentUser
+      })
+      this.messageText = ' '
+      this.$refs.inp.focus()
+      console.log(this.$refs.inp)
     }
   }
 }
 </script>
 
 <style scoped>
-.message-box{
-height:79px;
-border-top: 1px solid #e5e9f2;
-/* padding: 12px 36px; */
-    position: fixed;
-bottom: 0;
-width: 100%;
-text-align: start;
-    background: #fff;
-    display: grid;
-    grid-template-columns: 100px 1fr 100px;
-    align-content: center;
-    align-items: center;
+.message-box {
+  height: 79px;
+  border-top: 1px solid #e5e9f2;
+  position: absolute;
+  bottom: 0;
+  left:0;
+  width: 100%;
+  text-align: start;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  align-content: center;
+  align-items: center;
+  padding: 0 12px ;
 }
-.actions svg{
-      width: 24px;
+.actions svg {
+  width: 24px;
   height: 24px;
-  stroke:#21252959;
+  stroke: #21252959;
 }
-.actions{
-
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 0 10px;
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
 }
-.actions .clickable{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+.actions .clickable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .message-input {
+  height: 100%;
+  display: flex;
+  align-items: center;
 
-    height: 100%;
-    /* width: 100%; */
-    display: flex;
-    align-items: center;
-    /* background: red; */
 }
-.message-input textarea{
-    outline: none;
-    border: none;
-    display: flex;
-    width: 100%;
-    align-items: center;
-    padding: 20px;
-    resize: none;
-    padding: 6px 12px;
-        font-weight: 500;
-       font-family: Inter;
-font-size:15px;
+.message-input textarea {
+  outline: none;
+  border: none;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 20px;
+  resize: none;
+  padding: 6px 20px;
+  font-weight: 500;
+  font-family: Inter;
+  font-size: 15px;
 }
-textarea::placeholder{
-    font-weight: 500;
-       font-family: Inter;
-font-size:15px;
+textarea::placeholder {
+  font-weight: 500;
+  font-family: Inter;
+  font-size: 15px;
 }
-.submit-button{
-    cursor: pointer;
+.submit-button {
+  cursor: pointer;
   background-color: #665dfe;
   height: 48px;
   width: 48px;
   border-radius: 50%;
+
 }
-.submit-button:hover{
-    background: #665dfeeb;
+.submit-button:hover {
+  background: #665dfeeb;
 }
-.submit-button:active{
-     background: rgb(93 86 218);
+.submit-button:active {
+  background: rgb(93 86 218);
 }
-.submit-button .icon{
-    height:100%;
-    width: 100%;
-      display: flex;
-    align-items: center;
-    justify-content: center;
+.pri-action{
+    display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.submit-button svg{
-     width: 24px;
+.submit-button .icon {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.submit-button svg {
+  width: 24px;
   height: 24px;
-  stroke:#fff;
+  stroke: #fff;
 }
 </style>

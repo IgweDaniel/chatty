@@ -6,7 +6,7 @@
  <slot name="left"></slot>
      </div>
 
-     <div class="right" :class="{show:activeChat}">
+     <div class="right" >
  <slot name="right" ></slot>
      </div>
 
@@ -22,8 +22,7 @@ export default {
     ...mapState(['activeChat'])
   },
   mounted () {
-    const vh = window.innerHeight * 0.01
-    document.documentElement.style.setProperty('--vh', `${vh}px`)
+
   },
   components: {
     Nav
@@ -36,8 +35,8 @@ export default {
   position: relative;
   height:100%;
 width: 100%;
-  height: calc(var(--vh, 1vh) * 100);
   overflow: hidden;
+
 }
 main{
 

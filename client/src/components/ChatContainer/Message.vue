@@ -22,14 +22,14 @@ import { Avatar } from '@/components/shared'
 import moment from 'moment'
 export default {
   props: {
-    message: Object,
-    prev: Object
+    message: Object
+
   },
   components: {
     Avatar
   },
   mounted () {
-    console.log(this.prev)
+
   },
   computed: {
     ...mapState([
@@ -103,10 +103,5 @@ border-radius: 50%;
 
         right:50px;
 }
- .message-container.self .sender-image{
 
-}
-.message-container.sender.sender-image{
-
-}
 </style>

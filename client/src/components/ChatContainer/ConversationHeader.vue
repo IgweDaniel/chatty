@@ -14,7 +14,7 @@
 
       </div>
       <div class="conversation-actions">
-<p>conversation.chatImg</p>
+
       </div>
   </div>
 </template>
@@ -38,7 +38,7 @@ export default {
     padding: 12px 36px;
 
     height: 73px;
-    position: fixed;
+    position: absolute;
     text-align: start;
     top:0;
     width: 100%;

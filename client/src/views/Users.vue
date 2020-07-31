@@ -1,8 +1,15 @@
 <template>
   <div class="users">
-      <Layout />
+    <Layout>
+      <template v-slot:left>
+        h
+      </template>
+      <template v-slot:right>
+        m
+        <!-- <Conversation :conversation="conversation"/> -->
+      </template>
+    </Layout>
   </div>
-
 </template>
 
 <script>

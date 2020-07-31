@@ -1,3 +1,5 @@
 import Avatar from './Avatar.vue'
-
-export { Avatar }
+import GroupInfo from './GroupInfo.vue'
+import UserInfo from './UserInfo.vue'
+import ListItem from './ListItem.vue'
+export { Avatar, UserInfo, GroupInfo, ListItem }
