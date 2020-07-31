@@ -1,19 +1,41 @@
 <template>
-  <div class="list-item" :class="{ active: activeId == id }">
-    <div class="chat-image">
-      <Avatar :url="listImg" :name="listTitle" size="55px" />
-    </div>
-    <div class="list-info">
-      <div class="list-meta">
-        <span class="name">
-          {{ listTitle }}
-        </span>
-        <span class="badge">
-          <slot name="badge"></slot>
-        </span>
+  <router-link v-if="isMobile" :to="{ name: url, params: { id: id } }">
+    <div class="list-item" :class="{ active: activeId == id }">
+      <div class="list-image">
+        <Avatar :url="listImg" :name="listTitle" size="55px" />
       </div>
-      <div class="list-content">
-        <slot name="body"></slot>
+      <div class="list-info">
+        <div class="list-meta">
+          <span class="name">
+            {{ listTitle }}
+          </span>
+          <span class="badge">
+            <slot name="badge"></slot>
+          </span>
+        </div>
+        <div class="list-content">
+          <slot name="body"></slot>
+        </div>
+      </div>
+    </div>
+  </router-link>
+  <div v-else @click="setActiveList(id)" :key="id">
+    <div class="list-item" :class="{ active: activeId == id }">
+      <div class="list-image">
+        <Avatar :url="listImg" :name="listTitle" size="55px" />
+      </div>
+      <div class="list-info">
+        <div class="list-meta">
+          <span class="name">
+            {{ listTitle }}
+          </span>
+          <span class="badge">
+            <slot name="badge"></slot>
+          </span>
+        </div>
+        <div class="list-content">
+          <slot name="body"></slot>
+        </div>
       </div>
     </div>
   </div>
@@ -21,17 +43,18 @@
 
 <script>
 import { Avatar } from '../shared'
+import { mapState } from 'vuex'
 
 export default {
-  props: ['activeId', 'listImg', 'id', 'listTitle'],
-
-  components: {
-    Avatar
-  },
+  props: ['activeId', 'listImg', 'id', 'listTitle', 'url', 'setActiveList'],
   computed: {
     isMobile() {
-      return this.winWidth < 1000
-    }
+      return this.winWidth < 1200
+    },
+    ...mapState(['currentUser', 'activeChat', 'winWidth'])
+  },
+  components: {
+    Avatar
   }
 }
 </script>
@@ -57,7 +80,7 @@ export default {
 .active .list-content {
   color: #f1f1f1 !important;
 }
-.chat-image {
+.list-image {
   width: 20%;
   max-width: 80px;
 }

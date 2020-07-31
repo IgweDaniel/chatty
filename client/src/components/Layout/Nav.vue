@@ -1,14 +1,14 @@
 <template>
   <div id="nav">
     <div class="links">
-      <router-link to="/"  exact active-class="link-active" class="link">
+      <router-link to="/" exact active-class="link-active" class="link">
         <ChatIcon />
-      </router-link>
-      <router-link to="/profile" active-class="link-active" class="link">
-        <ProfileIcon />
       </router-link>
       <router-link to="/users" active-class="link-active" class="link">
         <UserIcon />
+      </router-link>
+      <router-link to="/me" active-class="link-active" class="link">
+        <ProfileIcon />
       </router-link>
     </div>
   </div>
@@ -30,25 +30,26 @@ export default {
 
 <style scoped>
 #nav {
-  position: absolute;
+  position: fixed;
   height: 60px;
   bottom: 0;
+  z-index: 100;
   width: 100%;
   background-color: #665dfe;
   color: #fff;
 }
-.links{
-display: flex;
-align-items: center;
-justify-content: center;
-height:100%;
-}
-.link{
+.links {
   display: flex;
-align-items: center;
-justify-content: center;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  flex :1
+  flex: 1;
 }
 .link svg {
   stroke: #b9b4fe;
@@ -65,12 +66,12 @@ justify-content: center;
     top: 0;
     width: 70px;
     display: flex;
-align-items: center;
-justify-content: center;
+    align-items: center;
+    justify-content: center;
   }
-.links{
-flex-direction: column;
-height:200px;
-}
+  .links {
+    flex-direction: column;
+    height: 200px;
+  }
 }
 </style>

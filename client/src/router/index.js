@@ -1,13 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import {
-  Home,
-  Auth,
-  Profile,
-  Users,
-  Chat
-} from '../views'
+import { Home, Auth, UserProfile, Users, Chat, MyProfile } from '../views'
 
 Vue.use(VueRouter)
 
@@ -23,14 +17,30 @@ const routes = [
     component: Auth
   },
   {
-    path: '/profile',
-    name: 'Profile',
-    component: Profile
-  },
-  {
     path: '/users',
     name: 'Users',
     component: Users
+  },
+  {
+    path: '/me',
+    name: 'Me',
+    component: MyProfile
+  },
+  {
+    path: '/profile/:id',
+    name: 'Profile',
+    component: UserProfile
+    // ,
+    // children: [
+    //   {
+    //     path: 'me',
+    //     component: UserProfile
+    //   },
+    //   {
+    //     path: ':id',
+    //     component: Profile
+    //   }
+    // ]
   },
   // Mobile  Pages
   {
@@ -40,7 +50,7 @@ const routes = [
     component: Chat,
     beforeEnter: (to, from, next) => {
       console.log(window.innerWidth)
-      if (window.innerWidth > 1100) {
+      if (window.innerWidth > 1200) {
         next('/')
       }
       next()

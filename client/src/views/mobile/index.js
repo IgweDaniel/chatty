@@ -1,2 +1,3 @@
 import Chat from './Chat.vue'
-export { Chat }
+import UserProfile from './UserProfile.vue'
+export { Chat, UserProfile }

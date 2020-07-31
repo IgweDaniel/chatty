@@ -8,17 +8,25 @@
         <EmojiIcon />
       </div>
     </div>
-    <div class="message-input" >
-      <textarea ref="inp" v-model="messageText" @focus="scroll" name id rows="1" placeholder="Type a message"></textarea>
+    <div class="message-input">
+      <textarea
+        ref="inp"
+        v-model="messageText"
+        @focus="scroll"
+        @keyup.prevent.enter="sendMessage"
+        name
+        id
+        rows="1"
+        placeholder="Type a message"
+      ></textarea>
     </div>
-      <div class="pri-action">
-    <button class="submit-button" @click.prevent="sendMessage">
-      <div class="icon">
-        <NextIcon />
-
-      </div>
-    </button>
-      </div>
+    <div class="pri-action">
+      <button class="submit-button" @click.prevent="sendMessage">
+        <div class="icon">
+          <NextIcon />
+        </div>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -27,14 +35,14 @@ import AddIcon from '@/assets/svg/add.svg'
 import EmojiIcon from '@/assets/svg/emoji.svg'
 import NextIcon from '@/assets/svg/arrowNext.svg'
 import { mapActions, mapState } from 'vuex'
-
+import { chats } from '@/data.js'
 export default {
   name: 'MessageBox',
   props: {
     scrollToBottom: Function,
     activeChat: Number
   },
-  data: () => ({ messageText: 'yo' }),
+  data: () => ({ messageText: '' }),
   components: {
     NextIcon,
     EmojiIcon,
@@ -44,24 +52,29 @@ export default {
 
   methods: {
     ...mapActions(['createMessage']),
-    scroll () {
-      console.log('focus')
+    scroll() {
       this.scrollToBottom()
     },
-    sendMessage () {
-      console.log(this.activeChat)
+    sendMessage() {
+      /**
+       * Remove this code, its for development purpose
+       * also remove keydown handler on submit button
+       *
+       */
+      const cchat = chats.find(chat => `${chat.id}` === `${this.activeChat}`)
+      const NewMessageId = cchat.messages[cchat.messages.length - 1].id + 1
+      // console.log(cchat.messages[cchat.messages.length - 1].id)
       if (this.messageText.trim() === '') return
       const date = new Date()
       this.createMessage({
         chatId: this.activeChat,
-        id: Math.round(Math.random() * 10 + 1),
+        id: NewMessageId,
         message: this.messageText,
         time: date.getTime(),
         sender: this.currentUser
       })
       this.messageText = ' '
       this.$refs.inp.focus()
-      console.log(this.$refs.inp)
     }
   }
 }
@@ -73,7 +86,7 @@ export default {
   border-top: 1px solid #e5e9f2;
   position: absolute;
   bottom: 0;
-  left:0;
+  left: 0;
   width: 100%;
   text-align: start;
   background: #fff;
@@ -81,7 +94,7 @@ export default {
   grid-template-columns: 80px 1fr 80px;
   align-content: center;
   align-items: center;
-  padding: 0 12px ;
+  padding: 0 12px;
 }
 .actions svg {
   width: 24px;
@@ -103,7 +116,6 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
-
 }
 .message-input textarea {
   outline: none;
@@ -129,7 +141,6 @@ textarea::placeholder {
   height: 48px;
   width: 48px;
   border-radius: 50%;
-
 }
 .submit-button:hover {
   background: #665dfeeb;
@@ -137,8 +148,8 @@ textarea::placeholder {
 .submit-button:active {
   background: rgb(93 86 218);
 }
-.pri-action{
-    display: flex;
+.pri-action {
+  display: flex;
   align-items: center;
   justify-content: center;
 }

@@ -1,24 +1,45 @@
 <template>
-  <div id="app" :style="{height:vH}">
-    <router-view />
+  <div id="app" :style="{ height: vH }">
+    <transition :name="transitionName">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
+
 export default {
+  data: () => ({ transitionName: '' }),
   computed: {
     ...mapGetters(['vH'])
   },
   methods: {
     ...mapActions(['updateHeight'])
   },
-  mounted () {
-    window.addEventListener('resize', (e) => {
-      this.updateHeight({ height: window.innerHeight, width: window.innerWidth })
+  components: {},
+  watch: {
+    $route(to, from) {
+      console.log(to.name)
+      const toDepth = to.path.split('/').length
+      const fromDepth = from.path.split('/').length
+      console.log(toDepth, fromDepth)
+      if (to.name === 'Profile') {
+        console.log('Here')
+        this.transitionName = 'card-up'
+      } else if (from.name === 'Profile') {
+        this.transitionName = ''
+      }
+    }
+  },
+  mounted() {
+    window.addEventListener('resize', e => {
+      this.updateHeight({
+        height: window.innerHeight,
+        width: window.innerWidth
+      })
     })
     this.updateHeight({ height: window.innerHeight, width: window.innerWidth })
   }
-
 }
 </script>
 <style>
@@ -30,33 +51,44 @@ export default {
   text-align: center;
   color: #2c3e50;
   width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
-*{
+* {
   font-family: 'Inter', sans-serif;
-      margin:0;
-    padding:0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-button{
+button {
   box-shadow: none;
   border: none;
   outline: none;
   background: transparent;
 }
-.clickable{
+.clickable {
   cursor: pointer;
 }
-.page{
+.page {
   overflow: hidden;
-height: 100%;
-width: 100%;
+  height: 100%;
+  width: 100%;
 }
-a{
+a {
   text-decoration: none;
   color: inherit;
+}
+
+.card-up-enter {
+}
+.card-up-enter-active,
+.card-up-leave-active {
+  transition: transform 2s ease-in-out;
+}
+.card-up-enter-active {
+}
+.card-up-leave-active {
 }
 </style>

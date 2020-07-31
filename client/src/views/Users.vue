@@ -1,11 +1,17 @@
 <template>
-  <div class="users">
+  <div class="users page">
     <Layout>
       <template v-slot:left>
-        h
+        <UsersList
+          :users="users"
+          :setActiveUser="setActiveUser"
+          :activeUser="activeUser"
+        />
       </template>
       <template v-slot:right>
-        m
+        <div class="user-profile" :style="{ height: vH }">
+          <Profile :user="user" />
+        </div>
         <!-- <Conversation :conversation="conversation"/> -->
       </template>
     </Layout>
@@ -14,10 +20,36 @@
 
 <script>
 import Layout from '@/components/Layout'
+import UsersList from '@/components/UsersList'
+import { Profile } from '@/components/shared'
+
+import { users } from '@/data.js'
+import { mapGetters } from 'vuex'
 
 export default {
+  data: () => ({ users, activeUser: '1' }),
   components: {
-    Layout
+    Layout,
+    UsersList,
+    Profile
+  },
+  computed: {
+    ...mapGetters(['vH']),
+    user() {
+      return this.users.find(user => `${user.id}` === `${this.activeUser}`)
+    }
+  },
+  methods: {
+    setActiveUser(id) {
+      this.activeUser = id
+    }
   }
 }
 </script>
+
+<style scoped>
+.user-profile {
+  overflow-y: auto;
+  height: 100%;
+}
+</style>

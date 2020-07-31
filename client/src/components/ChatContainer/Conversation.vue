@@ -1,14 +1,17 @@
 <template>
   <div class="conversation" v-if="conversation">
     <ConversationHeader :conversation="conversation" />
-    <div class="conversation-body" ref="chatBody" :style="{height:vH}">
+    <div class="conversation-body" ref="chatBody" :style="{ height: vH }">
       <Message
         v-for="message in conversation.messages"
         :message="message"
         :key="message.id"
       />
     </div>
-    <MessageBox :scrollToBottom="scrollToBottom" :activeChat="conversation.id" />
+    <MessageBox
+      :scrollToBottom="scrollToBottom"
+      :activeChat="conversation.id"
+    />
   </div>
   <div v-else class="default">
     <h3>Click a conversation to Start</h3>
@@ -23,8 +26,7 @@ import Message from './Message.vue'
 
 export default {
   props: { conversation: Object },
-  data: () => ({
-  }),
+  data: () => ({}),
   computed: {
     ...mapState(['currentUser']),
 
@@ -36,16 +38,16 @@ export default {
     Message
   },
   methods: {
-    scrollToBottom () {
+    scrollToBottom() {
       // const last = this.$refs.chatBody.querySelector('.message-container:last-of-type')
       // last.scrollIntoView(true)
       this.$refs.chatBody.scrollTop = this.$refs.chatBody.scrollHeight
     }
   },
-  updated () {
+  updated() {
     this.scrollToBottom()
   },
-  mounted () {
+  mounted() {
     if (!this.$refs.chatBody) return
     this.scrollToBottom()
   }
@@ -67,14 +69,13 @@ export default {
   justify-content: center;
 }
 .conversation-body {
-height: 100%;
+  height: 100%;
   padding: 12px;
   width: 100%;
-  overflow: scroll;
+  overflow: auto;
   padding-top: 100px;
   padding-bottom: 89px;
 }
 @media (min-width: 1200px) {
-
 }
 </style>

@@ -1,73 +1,77 @@
 <template>
   <div class="chat-list">
-    <Header/>
+    <Header />
+    <div class="chats">
+      <template v-for="chat in chats">
+        <ListItem
+          :setActiveList="setActiveChat"
+          :activeId="activeChat"
+          :listImg="chat.chatImg"
+          :listTitle="chat.name"
+          :id="chat.id"
+          url="Chat"
+          :key="chat.id"
+        >
+          <template v-slot:badge>
+            {{ chat.messages[chat.messages.length - 1].time | fromNow }}
+          </template>
+          <template v-slot:body>
+            <span
+              class="user"
+              v-if="
+                currentUser.name !==
+                  chat.messages[chat.messages.length - 1].sender.name
+              "
+            >
+              {{ chat.messages[chat.messages.length - 1].sender.name }}:
+            </span>
 
-       <!-- <router-link to="/chat" active-class="link-active" class="link">
-       click me</router-link> -->
-   <div class="chats" >
-     <template v-for="chat in chats ">
-        <router-link v-if="isMobile" :to="{ name: 'Chat', params: { id: chat.id }}"  :key="chat.id" >
-           <ChatItem :chat="chat" />
-       </router-link>
-       <div v-else @click="setActiveChat(chat.id)" :key="chat.id">
-      <ChatItem :chat="chat" />
-       </div>
-     </template >
-   </div>
-
+            {{ chat.messages[chat.messages.length - 1].message }}
+          </template>
+        </ListItem>
+      </template>
+    </div>
   </div>
 </template>
 
 <script>
-
 import Header from './Header.vue'
+import { ListItem } from './shared'
 import moment from 'moment'
-import ChatItem from './ChatItem.vue'
 import { mapState, mapActions } from 'vuex'
 export default {
   props: {
     chats: Array
   },
-  data: () => ({
-
-  }),
+  data: () => ({}),
   components: {
-    Header, ChatItem
+    Header,
+    ListItem
   },
   computed: {
-    isMobile () {
-      return this.winWidth < 1100
-    },
-    ...mapState([
-      'currentUser', 'activeChat', 'winWidth'
-    ])
+    ...mapState(['currentUser', 'activeChat', 'winWidth'])
   },
   methods: {
     ...mapActions(['setActiveChat'])
   },
   filters: {
-    fromNow: function (value) {
+    fromNow: function(value) {
       var a = moment(new Date(value))
       var b = moment(new Date())
       a.from(b)
       return a.from(b)
     }
   },
-  mounted () {
-
-  }
+  mounted() {}
 }
 </script>
 
 <style scoped>
-.chat-list{
+.chat-list {
   height: 100%;
-background-color:#f8f9fa;
+  background-color: #f8f9fa;
 }
-.chats{
-
-padding: 12px;
-
+.chats {
+  padding: 12px;
 }
-
 </style>
