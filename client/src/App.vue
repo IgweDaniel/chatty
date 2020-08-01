@@ -1,15 +1,27 @@
 <template>
   <div id="app" :style="{ height: vH }">
-    <transition :name="transitionName">
+    <transition mode="in-out" :name="transitionName">
       <router-view></router-view>
     </transition>
+    <!-- <transition
+      @beforeEnter="beforeEnter"
+      @enter="enter"
+      @afterEnter="afterEnter"
+      @beforeLeave="beforeLeave"
+      @leave="leave"
+      @afterLeave="afterLeave"
+      :css="false"
+    >
+      <router-view></router-view>
+    </transition> -->
   </div>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import { TimelineLite } from 'gsap'
 
 export default {
-  data: () => ({ transitionName: '' }),
+  data: () => ({ transitionName: '', tl: new TimelineLite() }),
   computed: {
     ...mapGetters(['vH'])
   },
@@ -19,16 +31,12 @@ export default {
   components: {},
   watch: {
     $route(to, from) {
-      console.log(to.name)
-      const toDepth = to.path.split('/').length
-      const fromDepth = from.path.split('/').length
-      console.log(toDepth, fromDepth)
-      if (to.name === 'Profile') {
-        console.log('Here')
-        this.transitionName = 'card-up'
-      } else if (from.name === 'Profile') {
-        this.transitionName = ''
-      }
+      const TransitionName =
+        from.meta.fromTransitionName || to.meta.toTransitionName
+      console.log(to, from)
+      console.log(TransitionName)
+      this.mode = TransitionName === 'slide' ? 'in-out' : 'out-in'
+      this.transitionName = TransitionName || 'default'
     }
   },
   mounted() {
@@ -56,6 +64,9 @@ export default {
   justify-content: center;
   overflow: hidden;
 }
+.depth {
+  /* display: none; */
+}
 * {
   font-family: 'Inter', sans-serif;
   margin: 0;
@@ -75,20 +86,101 @@ button {
   overflow: hidden;
   height: 100%;
   width: 100%;
+  position: fixed;
+  top: 0;
 }
 a {
   text-decoration: none;
   color: inherit;
 }
 
-.card-up-enter {
+.default-enter-active,
+.default-leave-active {
+  transition-property: opacity;
+  transition-timing-function: ease-in-out;
+  transition-duration: 1ms;
 }
-.card-up-enter-active,
-.card-up-leave-active {
-  transition: transform 2s ease-in-out;
+/* Just for time */
+
+.default-enter {
+  opacity: 1;
 }
-.card-up-enter-active {
+.default-enter-to {
+  opacity: 1;
 }
-.card-up-leave-active {
+
+.default-leave {
+  opacity: 1;
+}
+.default-leave-to {
+  opacity: 1;
+}
+
+/* Slide In */
+.slide-enter-active,
+.slide-leave-active {
+  transition-property: transform opacity;
+  transition-timing-function: ease-in-out;
+}
+/* Just for time */
+.slide-enter-active {
+  transition-duration: 0.5s;
+}
+.slide-leave-active {
+  transition-duration: 1ms;
+}
+
+.slide-enter {
+  position: fixed;
+  z-index: 1000;
+  transform: translateX(1000px);
+}
+.slide-enter-to {
+  transform: translateX(0px);
+}
+
+.slide-leave {
+  z-index: -1000;
+  opacity: 1;
+}
+.slide-leave-to {
+  z-index: -1000;
+  opacity: 0;
+}
+
+/* Slide Out */
+
+.back-enter-active,
+.back-leave-active {
+  transition-property: transform opacity;
+  transition-timing-function: ease-in-out;
+}
+/* Just for time */
+.back-enter-active {
+  transition-duration: 1ms;
+}
+.back-leave-active {
+  transition-duration: 0.5s;
+}
+
+.back-enter {
+  opacity: 0;
+  z-index: -2000;
+}
+.back-enter-to {
+  z-index: -2000;
+  opacity: 0.2;
+}
+
+.back-leave {
+  z-index: 2000;
+  position: fixed;
+  transform: translateX(0px);
+  opacity: 1;
+}
+.back-leave-to {
+  z-index: 2000;
+  opacity: 1;
+  transform: translateX(1000px);
 }
 </style>

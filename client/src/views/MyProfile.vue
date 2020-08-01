@@ -2,7 +2,7 @@
   <Layout>
     <template v-slot:left>
       <div class="current-user" :style="{ height: vH }">
-        <Profile :user="currentUser" />
+        <UserDetails :user="currentUser" />
       </div>
     </template>
     <template v-slot:right>
@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import { Profile } from '@/components/shared'
+import { UserDetails } from '@/components/shared'
 import { mapState, mapGetters } from 'vuex'
 import Layout from '@/components/Layout'
 export default {
   computed: { ...mapState(['currentUser']), ...mapGetters(['vH']) },
   components: {
-    Profile,
+    UserDetails,
     Layout
   }
 }
@@ -35,6 +35,7 @@ export default {
   width: 100%;
   overflow: auto;
   padding-bottom: 20px;
+  background-color: #fff;
   /* margin-bottom: 200px; */
 }
 </style>

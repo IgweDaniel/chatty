@@ -1,7 +1,7 @@
 <template>
-<div class="chatt page">
-    <ChatContainer :conversation="conversation"/>
-</div>
+  <div class="chatt page depth">
+    <ChatContainer :conversation="conversation" />
+  </div>
 </template>
 
 <script>
@@ -13,16 +13,18 @@ export default {
   },
   computed: {
     ...mapState(['chats']),
-    conversation () {
-      return this.chats.find(chat => `${chat.id}` === `${this.$route.params.id}`)
+    conversation() {
+      return this.chats.find(
+        chat => `${chat.id}` === `${this.$route.params.id}`
+      )
     }
   },
-  mounted () {
-
-  }
+  mounted() {}
 }
 </script>
 
 <style scoped>
-
+.chatt {
+  background-color: #fff;
+}
 </style>

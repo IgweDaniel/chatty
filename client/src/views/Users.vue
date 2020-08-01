@@ -10,8 +10,9 @@
       </template>
       <template v-slot:right>
         <div class="user-profile" :style="{ height: vH }">
-          <Profile :user="user" />
+          <UserDetails :user="user" />
         </div>
+
         <!-- <Conversation :conversation="conversation"/> -->
       </template>
     </Layout>
@@ -21,7 +22,7 @@
 <script>
 import Layout from '@/components/Layout'
 import UsersList from '@/components/UsersList'
-import { Profile } from '@/components/shared'
+import { UserDetails } from '@/components/shared'
 
 import { users } from '@/data.js'
 import { mapGetters } from 'vuex'
@@ -31,7 +32,7 @@ export default {
   components: {
     Layout,
     UsersList,
-    Profile
+    UserDetails
   },
   computed: {
     ...mapGetters(['vH']),

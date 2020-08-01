@@ -29,7 +29,9 @@ const routes = [
   {
     path: '/profile/:id',
     name: 'Profile',
+    meta: { toTransitionName: 'slide', fromTransitionName: 'back' },
     component: UserProfile
+
     // ,
     // children: [
     //   {
@@ -47,6 +49,7 @@ const routes = [
     path: '/chat/:id',
 
     name: 'Chat',
+    meta: { toTransitionName: 'slide', fromTransitionName: 'back' },
     component: Chat,
     beforeEnter: (to, from, next) => {
       console.log(window.innerWidth)

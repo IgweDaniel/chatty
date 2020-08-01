@@ -1,5 +1,5 @@
 <template>
-  <div class="user-list">
+  <div class="users-list">
     <Header />
     <div class="users">
       <template v-for="user in users">
