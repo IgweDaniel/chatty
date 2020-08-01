@@ -1,3 +1,3 @@
-import Conversation from './Conversation.vue'
+import ChatBox from './ChatBox.vue'
 
-export default Conversation
+export default ChatBox

@@ -12,8 +12,6 @@
         <div class="user-profile" :style="{ height: vH }">
           <UserDetails :user="user" />
         </div>
-
-        <!-- <Conversation :conversation="conversation"/> -->
       </template>
     </Layout>
   </div>

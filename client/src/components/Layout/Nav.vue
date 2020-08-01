@@ -35,7 +35,7 @@ export default {
   bottom: 0;
   z-index: 100;
   width: 100%;
-  background-color: #665dfe;
+  background-color: var(--theme-color);
   color: #fff;
 }
 .links {

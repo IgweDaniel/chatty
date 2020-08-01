@@ -31,28 +31,14 @@ const routes = [
     name: 'Profile',
     meta: { toTransitionName: 'slide', fromTransitionName: 'back' },
     component: UserProfile
-
-    // ,
-    // children: [
-    //   {
-    //     path: 'me',
-    //     component: UserProfile
-    //   },
-    //   {
-    //     path: ':id',
-    //     component: Profile
-    //   }
-    // ]
   },
-  // Mobile  Pages
-  {
-    path: '/chat/:id',
 
+  {
+    path: '/chat',
     name: 'Chat',
     meta: { toTransitionName: 'slide', fromTransitionName: 'back' },
     component: Chat,
     beforeEnter: (to, from, next) => {
-      console.log(window.innerWidth)
       if (window.innerWidth > 1200) {
         next('/')
       }

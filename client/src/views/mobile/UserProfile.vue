@@ -27,6 +27,7 @@ export default {
 
 <style scoped>
 .profile {
+  position: relative;
   width: 100%;
   overflow: hidden;
   background: #fff;

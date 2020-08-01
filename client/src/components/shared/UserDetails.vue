@@ -1,8 +1,14 @@
 <template>
-  <div class="user-info">
+  <div class="user-info hide-scrollBar ">
     <div class="user-actions">
+      <div class="page-nav-button" v-if="!isMe">
+        <BackButton />
+      </div>
       <Avatar :url="user.avatar" :name="user.name" size="100px" />
       <h5 class="username">{{ user.name }}</h5>
+      <button v-if="!isMe" @click="initChat" class="button">
+        Messgae me
+      </button>
     </div>
     <div class="user-details">
       <div class="detail">
@@ -50,7 +56,8 @@
 </template>
 
 <script>
-import { Avatar } from '../shared'
+import { Avatar } from '.'
+import BackButton from './BackButton.vue'
 
 import MailIcon from '@/assets/svg/mail.svg'
 import WebIcon from '@/assets/svg/web.svg'
@@ -59,9 +66,10 @@ import PhoneIcon from '@/assets/svg/phone.svg'
 import FbIcon from '@/assets/svg/fb.svg'
 import InstaIcon from '@/assets/svg/insta.svg'
 import TwitterIcon from '@/assets/svg/twitter.svg'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  props: ['user'],
+  props: ['user', 'isMe'],
   components: {
     Avatar,
     MailIcon,
@@ -69,7 +77,26 @@ export default {
     PhoneIcon,
     TwitterIcon,
     InstaIcon,
-    FbIcon
+    FbIcon,
+    BackButton
+    // BackButton
+  },
+  computed: {
+    ...mapGetters(['isMobile'])
+  },
+  methods: {
+    ...mapActions(['setActiveChat', 'startChat']),
+    initChat() {
+      this.startChat(this.user)
+      if (this.isMobile) {
+        this.$router.push({ name: 'Chat' })
+      } else {
+        this.$router.push({ name: 'Home' })
+      }
+    },
+    mounted() {
+      // console.log(this.isMe)
+    }
   }
 }
 </script>
@@ -81,6 +108,7 @@ export default {
   padding: 24px;
 }
 .user-actions {
+  position: relative;
   height: 233px;
   padding: 20px;
   border: 1px solid #e5e9f2;
@@ -89,6 +117,11 @@ export default {
   justify-content: center;
   flex-direction: column;
   margin-bottom: 24px;
+}
+.page-nav-button {
+  position: absolute;
+  top: 30px;
+  left: 30px;
 }
 .username {
   font-size: 17px;

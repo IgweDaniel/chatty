@@ -43,6 +43,11 @@ main {
 .left {
   height: 100%;
 }
+
+.left {
+  background-color: #f8f9fa;
+  background-color: #fff;
+}
 .right {
   position: absolute;
   background: #fff;

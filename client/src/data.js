@@ -1,4 +1,4 @@
-const ChatType = {
+export const ChatType = {
   group: 'GRP',
   user: 'USER'
 }
@@ -7,7 +7,7 @@ export const John = {
   id: 1,
   name: 'John Doe',
   email: 'johnny@gmail.com',
-  state: 'Kogi',
+  location: 'Kogi',
   phone: '+01-222-364522',
   website: 'johny.com',
   socials: [
@@ -22,7 +22,7 @@ export const Jane = {
   id: 2,
   name: 'Jane Doe',
   email: 'janeDoe@gmail.com',
-  state: 'Abuja',
+  location: 'Abuja',
   phone: '+01-222-364522',
   website: 'janeD.me',
   socials: [
@@ -39,7 +39,7 @@ export const Kudi = {
   email: 'kudi@gmail.com',
   phone: '+01-222-364522',
   socials: [{ name: 'twitter', handle: '@Johnny_Depp' }],
-  state: 'Lagos',
+  location: 'Lagos',
   avatar:
     'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
 }
@@ -47,35 +47,35 @@ export const Kudi = {
 export const users = [John, Jane, Kudi]
 
 export const chats = [
-  {
-    //   Jane doe
-    id: 1,
-    name: 'Jane doe',
-    type: ChatType.user,
-    chatImg:
-      'https://images.pexels.com/photos/2101841/pexels-photo-2101841.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-    messages: [
-      {
-        id: 1,
-        time: 1596113971879,
-        message: 'Hello mother fucker',
-        sender: John
-      },
-      {
-        id: 2,
-        time: 1596113971879,
-        message: 'How are you now',
-        sender: John
-      },
-      {
-        id: 3,
-        time: 1596114072333,
-        message: 'I am good u',
-        sender: Jane
-      }
-    ],
-    users: [John, Jane]
-  },
+  // {
+  //   //   Jane doe
+  //   id: 1,
+  //   name: 'Jane doe',
+  //   type: ChatType.user,
+  //   chatImg:
+  //     'https://images.pexels.com/photos/2101841/pexels-photo-2101841.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+  //   messages: [
+  //     {
+  //       id: 1,
+  //       time: 1596113971879,
+  //       message: 'Hello mother fucker',
+  //       sender: John
+  //     },
+  //     {
+  //       id: 2,
+  //       time: 1596113971879,
+  //       message: 'How are you now',
+  //       sender: John
+  //     },
+  //     {
+  //       id: 3,
+  //       time: 1596114072333,
+  //       message: 'I am good u',
+  //       sender: Jane
+  //     }
+  //   ],
+  //   users: [John, Jane]
+  // },
 
   {
     //   KId kudi

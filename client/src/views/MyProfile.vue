@@ -2,7 +2,7 @@
   <Layout>
     <template v-slot:left>
       <div class="current-user" :style="{ height: vH }">
-        <UserDetails :user="currentUser" />
+        <UserDetails :user="currentUser" :isMe="true" />
       </div>
     </template>
     <template v-slot:right>

@@ -1,23 +1,22 @@
 <template>
   <div class="chatt page depth">
-    <ChatContainer :conversation="conversation" />
+    <ChatBox :conversation="conversation" />
   </div>
 </template>
 
 <script>
-import ChatContainer from '@/components/ChatContainer'
-import { mapState } from 'vuex'
+import ChatBox from '@/components/ChatContainer'
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   components: {
-    ChatContainer
+    ChatBox
   },
   computed: {
     ...mapState(['chats']),
-    conversation() {
-      return this.chats.find(
-        chat => `${chat.id}` === `${this.$route.params.id}`
-      )
-    }
+    ...mapGetters(['conversation'])
+  },
+  methods: {
+    ...mapActions(['setActiveChat'])
   },
   mounted() {}
 }

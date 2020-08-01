@@ -1,6 +1,6 @@
 <template>
-  <div :style="{height:size, width:size}" class="avatar">
-    <img :src="url" alt="" >
+  <div :style="{ height: size, width: size }" class="avatar">
+    <img :src="url" alt="" />
   </div>
 </template>
 
@@ -18,14 +18,14 @@ export default {
 </script>
 
 <style>
-.avatar{
-border-radius: 50%;
-overflow:hidden
+.avatar {
+  border-radius: 50%;
+  overflow: hidden;
 }
-img{
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    object-position: center;
+img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 </style>

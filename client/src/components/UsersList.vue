@@ -9,11 +9,19 @@
           :listImg="user.avatar"
           :listTitle="user.name"
           :id="user.id"
-          url="Profile"
+          page="Profile"
+          :pagePerId="true"
           :key="user.id"
         >
           <template v-slot:body>
-            {{ user.state }}
+            <div class="user-location">
+              <span class="icon">
+                <MapIcon />
+              </span>
+              <span class="value">
+                {{ user.location }}
+              </span>
+            </div>
           </template>
         </ListItem>
       </template>
@@ -24,7 +32,7 @@
 <script>
 import Header from './Header.vue'
 import { ListItem } from './shared'
-
+import MapIcon from '@/assets/svg/map.svg'
 import {
   mapState
   //  mapActions
@@ -34,7 +42,8 @@ export default {
   props: ['activeUser', 'users', 'setActiveUser'],
   components: {
     Header,
-    ListItem
+    ListItem,
+    MapIcon
   },
   computed: {
     ...mapState(['currentUser', 'winWidth'])
@@ -50,9 +59,23 @@ export default {
 <style scoped>
 .users-list {
   height: 100%;
-  background-color: #f8f9fa;
 }
 .users {
   padding: 12px;
+}
+.icon {
+  display: flex;
+  align-items: center;
+}
+.icon svg {
+  height: 20px;
+  width: 20px;
+}
+.value {
+  margin: 0 4px;
+}
+.user-location {
+  display: flex;
+  align-items: center;
 }
 </style>

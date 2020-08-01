@@ -1,6 +1,6 @@
 <template>
-  <router-link v-if="isMobile" :to="{ name: url, params: { id: id } }">
-    <div class="list-item" :class="{ active: activeId == id }">
+  <div @click="goToPage" :key="id">
+    <div class="list-item" :class="{ selected: activeId == id }">
       <div class="list-image">
         <Avatar :url="listImg" :name="listTitle" size="55px" />
       </div>
@@ -9,28 +9,8 @@
           <span class="name">
             {{ listTitle }}
           </span>
-          <span class="badge">
-            <slot name="badge"></slot>
-          </span>
-        </div>
-        <div class="list-content">
-          <slot name="body"></slot>
-        </div>
-      </div>
-    </div>
-  </router-link>
-  <div v-else @click="setActiveList(id)" :key="id">
-    <div class="list-item" :class="{ active: activeId == id }">
-      <div class="list-image">
-        <Avatar :url="listImg" :name="listTitle" size="55px" />
-      </div>
-      <div class="list-info">
-        <div class="list-meta">
-          <span class="name">
-            {{ listTitle }}
-          </span>
-          <span class="badge">
-            <slot name="badge"></slot>
+          <span class="tag">
+            <slot name="tag"></slot>
           </span>
         </div>
         <div class="list-content">
@@ -43,15 +23,35 @@
 
 <script>
 import { Avatar } from '../shared'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
-  props: ['activeId', 'listImg', 'id', 'listTitle', 'url', 'setActiveList'],
+  props: [
+    'activeId',
+    'listImg',
+    'id',
+    'listTitle',
+    'page',
+    'setActiveList',
+    'pagePerId'
+  ],
   computed: {
-    isMobile() {
-      return this.winWidth < 1200
-    },
+    ...mapGetters(['isMobile']),
     ...mapState(['currentUser', 'activeChat', 'winWidth'])
+  },
+  methods: {
+    goToPage() {
+      this.setActiveList(this.id)
+      if (this.isMobile) {
+        if (this.pagePerId) {
+          this.$router.push({ name: this.page, params: { id: this.id } })
+        } else {
+          this.$router.push({ name: this.page }, () => {
+            // console.log(this)
+          })
+        }
+      }
+    }
   },
   components: {
     Avatar
@@ -71,20 +71,29 @@ export default {
   border-radius: 4px;
   padding: 16px 20px;
 }
-.active {
-  background: #665dfe;
-  border: 1px solid #665dfe;
+.list-item:hover {
+  border: 1px solid var(--theme-color);
+}
+.list-item:active {
+  border: 1px solid var(--theme-color);
+}
+.selected {
+  background: var(--theme-color);
+
+  border: 1px solid var(--theme-color);
   color: #fff;
 }
-.active .badge,
-.active .list-content {
+.selected .tag,
+.selected .list-content,
+.selected svg {
   color: #f1f1f1 !important;
 }
 .list-image {
   width: 20%;
-  max-width: 80px;
+  max-width: 60px;
 }
 .list-info {
+  padding: 0 10px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -98,11 +107,11 @@ export default {
 }
 .list-meta .name {
   display: block;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 6px;
   font-size: 14px;
 }
-.list-meta .badge {
+.list-meta .tag {
   display: block;
   margin-left: auto;
   color: #adb5bd;
@@ -112,6 +121,8 @@ export default {
 .list-content {
   color: #adb5bd;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
+  height: 30px;
+  overflow: hidden;
 }
 </style>

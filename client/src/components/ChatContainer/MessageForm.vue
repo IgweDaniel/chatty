@@ -35,7 +35,7 @@ import AddIcon from '@/assets/svg/add.svg'
 import EmojiIcon from '@/assets/svg/emoji.svg'
 import NextIcon from '@/assets/svg/arrowNext.svg'
 import { mapActions, mapState } from 'vuex'
-import { chats } from '@/data.js'
+// import { chats } from '@/data.js'
 export default {
   name: 'MessageBox',
   props: {
@@ -56,19 +56,9 @@ export default {
       this.scrollToBottom()
     },
     sendMessage() {
-      /**
-       * Remove this code, its for development purpose
-       * also remove keydown handler on submit button
-       *
-       */
-      const cchat = chats.find(chat => `${chat.id}` === `${this.activeChat}`)
-      const NewMessageId = cchat.messages[cchat.messages.length - 1].id + 1
-      // console.log(cchat.messages[cchat.messages.length - 1].id)
       if (this.messageText.trim() === '') return
       const date = new Date()
       this.createMessage({
-        chatId: this.activeChat,
-        id: NewMessageId,
         message: this.messageText,
         time: date.getTime(),
         sender: this.currentUser
@@ -137,7 +127,7 @@ textarea::placeholder {
 }
 .submit-button {
   cursor: pointer;
-  background-color: #665dfe;
+  background-color: var(--theme-color);
   height: 48px;
   width: 48px;
   border-radius: 50%;

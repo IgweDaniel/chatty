@@ -9,13 +9,13 @@
           :listImg="chat.chatImg"
           :listTitle="chat.name"
           :id="chat.id"
-          url="Chat"
+          page="Chat"
           :key="chat.id"
         >
-          <template v-slot:badge>
+          <template v-slot:tag v-if="chat.messages.length > 0">
             {{ chat.messages[chat.messages.length - 1].time | fromNow }}
           </template>
-          <template v-slot:body>
+          <template v-slot:body v-if="chat.messages.length > 0">
             <span
               class="user"
               v-if="
@@ -69,7 +69,7 @@ export default {
 <style scoped>
 .chat-list {
   height: 100%;
-  background-color: #f8f9fa;
+  /* background-color: #f8f9fa; */
 }
 .chats {
   padding: 12px;

@@ -3,17 +3,6 @@
     <transition mode="in-out" :name="transitionName">
       <router-view></router-view>
     </transition>
-    <!-- <transition
-      @beforeEnter="beforeEnter"
-      @enter="enter"
-      @afterEnter="afterEnter"
-      @beforeLeave="beforeLeave"
-      @leave="leave"
-      @afterLeave="afterLeave"
-      :css="false"
-    >
-      <router-view></router-view>
-    </transition> -->
   </div>
 </template>
 <script>
@@ -33,9 +22,6 @@ export default {
     $route(to, from) {
       const TransitionName =
         from.meta.fromTransitionName || to.meta.toTransitionName
-      console.log(to, from)
-      console.log(TransitionName)
-      this.mode = TransitionName === 'slide' ? 'in-out' : 'out-in'
       this.transitionName = TransitionName || 'default'
     }
   },
@@ -50,8 +36,12 @@ export default {
   }
 }
 </script>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+:root {
+  --theme-color: #25283d;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -64,9 +54,7 @@ export default {
   justify-content: center;
   overflow: hidden;
 }
-.depth {
-  /* display: none; */
-}
+
 * {
   font-family: 'Inter', sans-serif;
   margin: 0;
@@ -94,6 +82,14 @@ a {
   color: inherit;
 }
 
+.hide-scrollBar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollBar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 .default-enter-active,
 .default-leave-active {
   transition-property: opacity;
@@ -118,21 +114,25 @@ a {
 
 /* Slide In */
 .slide-enter-active,
-.slide-leave-active {
+.slide-leave-active,
+.back-enter-active,
+.back-leave-active {
   transition-property: transform opacity;
   transition-timing-function: ease-in-out;
 }
 /* Just for time */
-.slide-enter-active {
+.slide-enter-active,
+.back-leave-active {
   transition-duration: 0.5s;
 }
-.slide-leave-active {
+.slide-leave-active,
+.back-enter-active {
   transition-duration: 1ms;
 }
 
 .slide-enter {
   position: fixed;
-  z-index: 1000;
+  z-index: 2000;
   transform: translateX(1000px);
 }
 .slide-enter-to {
@@ -140,28 +140,17 @@ a {
 }
 
 .slide-leave {
-  z-index: -1000;
+  z-index: -2000;
   opacity: 1;
 }
 .slide-leave-to {
-  z-index: -1000;
+  z-index: -2000;
   opacity: 0;
 }
 
 /* Slide Out */
 
-.back-enter-active,
-.back-leave-active {
-  transition-property: transform opacity;
-  transition-timing-function: ease-in-out;
-}
 /* Just for time */
-.back-enter-active {
-  transition-duration: 1ms;
-}
-.back-leave-active {
-  transition-duration: 0.5s;
-}
 
 .back-enter {
   opacity: 0;
